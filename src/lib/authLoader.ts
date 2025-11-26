@@ -1,9 +1,12 @@
 import { redirect } from "react-router-dom";
 
 export const authLoader = () => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-        return redirect("/login");
+    const authState = localStorage.getItem("auth-storage");
+    if (authState) {
+        const { state } = JSON.parse(authState);
+        if (state.accessToken) {
+            return null;
+        }
     }
-    return null;
+    return redirect("/login");
 };

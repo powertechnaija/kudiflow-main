@@ -1,8 +1,8 @@
 import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Toaster } from '@/components/ui/sonner';
-import { useAuthStore } from '@/store/useAuthStore';
-import ErrorPage from "./pages/ErrorPage";
+// import { useAuthStore } from '@/store/useAuthStore'; // No longer needed as authLoader handles protection
+// import ErrorPage from "./pages/ErrorPage";
 import { authLoader } from "@/lib/authLoader";
 
 // Correct Layout
@@ -20,18 +20,18 @@ import ReportsPage from './pages/report/ReportPage';
 
 const queryClient = new QueryClient();
 
-// This is a good pattern for protecting routes, but we can also use the loader
-const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
-  const { isAuthenticated } = useAuthStore();
-  return isAuthenticated ? children : <Navigate to="/login" />;
-};
+// The ProtectedRoute component is no longer needed as authLoader handles route protection.
+// const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
+//   const { isAuthenticated } = useAuthStore();
+//   return isAuthenticated ? children : <Navigate to="/login" />;
+// };
 
 const router = createBrowserRouter([
   {
       path: "/",
       // Use the correct, responsive DashboardLayout
       element: <DashboardLayout />, 
-      errorElement: <ErrorPage />,
+      // errorElement: <ErrorPage />,
       // The authLoader will protect all child routes
       loader: authLoader, 
       children: [

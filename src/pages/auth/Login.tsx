@@ -1,6 +1,7 @@
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
+import api from '@/lib/axios'
 import { useNavigate, Link } from 'react-router-dom'
 import { useAuthStore } from '@/store/useAuthStore'
 import { Button } from '@/components/ui/button'
@@ -33,10 +34,10 @@ export default function Login() {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      // const { data } = await api.post('/login', values) // Uncomment when API is ready
+      const { data } = await api.post('/login', values) // Uncomment when API is ready
       // Mock successful login
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      const data = { user: { name: 'Test User', email: values.email }, access_token: 'mock_token' };
+      // await new Promise(resolve => setTimeout(resolve, 1000));
+      // const data = { user: { name: 'Test User', email: values.email }, access_token: 'mock_token' };
       
       console.log('Login successful')
       setAuth(data.user, data.access_token)

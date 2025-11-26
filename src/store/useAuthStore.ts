@@ -26,16 +26,8 @@ export const useAuthStore = create<AuthState>()(
       user: null,
       accessToken: null,
       isAuthenticated: false,
-      setAuth: (user, accessToken) => {
-        // Set the token in localStorage for the authLoader
-        localStorage.setItem('token', accessToken);
-        set({ user, accessToken, isAuthenticated: true });
-      },
-      logout: () => {
-        // Remove the token from localStorage on logout
-        localStorage.removeItem('token');
-        set({ user: null, accessToken: null, isAuthenticated: false });
-      },
+      setAuth: (user, accessToken) => set({ user, accessToken, isAuthenticated: true }),
+      logout: () => set({ user: null, accessToken: null, isAuthenticated: false }),
     }),
     {
       name: 'auth-storage', // The key used to store the entire auth state in localStorage

@@ -43,6 +43,7 @@ const navItems = [
   { href: "/pos", icon: ClipboardList, label: "Point of Sale" },
   { href: "/inventory", icon: Package, label: "Inventory" },
   { href: "/reports", icon: BarChart3, label: "Reports" },
+  { href: "/customers", icon: Users, label: "Customers"},
 ];
 
 
