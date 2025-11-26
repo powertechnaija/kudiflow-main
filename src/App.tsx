@@ -17,6 +17,8 @@ import POSPage from './pages/pos/POSPage';
 import CustomerList from './pages/customers/CustomerList';
 import SalesList from './pages/sales/SalesList';
 import ReportsPage from './pages/report/ReportPage';
+import UserList from '@/pages/users/UserList';
+import OrderList from '@/pages/orders/OrderList';
 
 const queryClient = new QueryClient();
 
@@ -59,6 +61,14 @@ const router = createBrowserRouter([
               path: "reports",
               element: <ReportsPage />,
           },
+          {
+              path: "users",
+              element: <UserList />,
+          },{
+            path: "orders",
+            element: <OrderList />,
+
+          }
       ],
   },
   {

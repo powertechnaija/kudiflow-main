@@ -4,6 +4,8 @@ import api from "@/lib/axios";
 import { useProductStore } from "@/store/useProductStore";
 import { Product } from "@/types/inventory";
 import { AddProductDialog } from "./components/AddProductDialog";
+import { EditProductSheet } from "./components/EditProductSheet";
+import { ProductHistoryDialog } from "./components/ProductHistoryDialog";
 import { cn } from "@/lib/utils";
 
 import { 
@@ -27,6 +29,8 @@ import {
 
 export default function InventoryList() {
     const [search, setSearch] = useState("");
+    const [editingProduct, setEditingProduct] = useState<Product | null>(null);
+    const [viewHistoryId, setViewHistoryId] = useState<number | null>(null);
     
     // Zustand Store
     const { 
@@ -148,6 +152,16 @@ export default function InventoryList() {
                     </Table>
                 </CardContent>
             </Card>
+            <EditProductSheet 
+                product={editingProduct} 
+                open={!!editingProduct} 
+                onClose={() => setEditingProduct(null)} 
+            />
+            <ProductHistoryDialog 
+                productId={viewHistoryId} 
+                open={!!viewHistoryId} 
+                onClose={() => setViewHistoryId(null)} 
+            />
         </div>
     );
 }
@@ -227,7 +241,12 @@ function ProductRow({ product }: { product: Product }) {
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                        <DropdownMenuItem>Edit Product</DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => setEditingProduct(product)}>
+                            Edit Product
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => setViewHistoryId(product.id)}>
+                            View History
+                        </DropdownMenuItem>
                         <DropdownMenuSeparator />
                         <DropdownMenuItem className="text-red-600">Delete</DropdownMenuItem>
                     </DropdownMenuContent>

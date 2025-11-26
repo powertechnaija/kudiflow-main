@@ -15,6 +15,7 @@ import {
   ClipboardList,
   BarChart3
 } from "lucide-react"
+import { format } from "date-fns";
 
 import { cn } from "@/lib/utils"
 import { Badge } from "@/components/ui/badge"
@@ -44,6 +45,8 @@ const navItems = [
   { href: "/inventory", icon: Package, label: "Inventory" },
   { href: "/reports", icon: BarChart3, label: "Reports" },
   { href: "/customers", icon: Users, label: "Customers"},
+  { href: "/users", icon: CircleUser, label: "Users"},
+  { href: "/orders",icon: ShoppingCart, label: "Orders"},
 ];
 
 
