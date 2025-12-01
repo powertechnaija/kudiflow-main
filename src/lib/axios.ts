@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useAuthStore } from '@/store/useAuthStore';
 
 const api = axios.create({
-  baseURL: 'https://9000-firebase-dream-1763315369962.cluster-ikslh4rdsnbqsvu5nw3v4dqjj2.cloudworkstations.dev/api', // Replace with your actual API base URL
+  baseURL: 'http://kudiflow.onlinewebshop.net/api', // Replace with your actual API base URL
   headers: {
     'Content-Type': 'application/json',
   },
@@ -15,5 +15,16 @@ api.interceptors.request.use(config => {
   }
   return config;
 });
+
+// api.interceptors.response.use(
+//   response => response,
+//   error => {
+//     if (error.response && error.response.status === 401) {
+//       useAuthStore.getState().logout();
+//       window.location.href = '/login';
+//     }
+//     return Promise.reject(error);
+//   }
+// );
 
 export default api;

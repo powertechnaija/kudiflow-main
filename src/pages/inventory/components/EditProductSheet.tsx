@@ -15,6 +15,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Badge } from "@/components/ui/badge"
 import { Save, Loader2 } from "lucide-react";
 
 // Reuse schema logic (simplified for brevity)
@@ -80,13 +81,13 @@ export function EditProductSheet({ product, open, onClose }: EditProductSheetPro
 
     return (
         <Sheet open={open} onOpenChange={(val) => !val && onClose()}>
-            <SheetContent className="w-[400px] sm:w-[540px]">
+            <SheetContent className="w-[400px] sm:w-[600px]">
                 <SheetHeader>
                     <SheetTitle>Edit Product</SheetTitle>
                     <SheetDescription>Make changes to product details and pricing.</SheetDescription>
                 </SheetHeader>
                 
-                <ScrollArea className="h-[calc(100vh-8rem)] mt-4 pr-4">
+                <ScrollArea className="h-[calc(100vh-8rem)] mt-4 pr-4 mx-2" >
                     <form id="edit-form" onSubmit={form.handleSubmit((d) => updateMutation.mutate(d))} className="space-y-6">
                         <div className="space-y-2">
                             <Label>Product Name</Label>

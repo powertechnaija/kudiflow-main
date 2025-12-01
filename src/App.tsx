@@ -19,8 +19,10 @@ import SalesList from './pages/sales/SalesList';
 import ReportsPage from './pages/report/ReportPage';
 import UserList from '@/pages/users/UserList';
 import OrderList from '@/pages/orders/OrderList';
-
+import ChartOfAccounts from './pages/accounting/ChartOfAccounts';
+import GeneralLedger from './pages/accounting/GeneralLedger';
 const queryClient = new QueryClient();
+
 
 // The ProtectedRoute component is no longer needed as authLoader handles route protection.
 // const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
@@ -68,6 +70,13 @@ const router = createBrowserRouter([
             path: "orders",
             element: <OrderList />,
 
+          },{
+            path: "accounting",
+            element: <ChartOfAccounts />,
+          },
+          {
+            path: "ledgers",
+            element: <GeneralLedger />,
           }
       ],
   },

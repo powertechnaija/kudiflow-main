@@ -40,9 +40,7 @@ export default function Register() {
       const data = { user: { name: values.name, email: values.email }, access_token: 'mock_token' };
 
       setAuth(data.user, data.access_token);
-      toast.success("Store Created!", { 
-        description: "Your financial ledger has been set up." 
-      });
+      toast.success("Store Created!");
       navigate('/');
     } catch (error) {
       console.error("Registration failed:", error);
@@ -53,7 +51,7 @@ export default function Register() {
   };
 
   return (
-    <div className="grid gap-6">
+    <div className="grid px-4 md:px-8 gap-6">
         <div className="flex flex-col space-y-2 text-center">
             <h1 className="text-2xl font-semibold tracking-tight">Create your Store</h1>
             <p className="text-sm text-muted-foreground">Start tracking sales and inventory today.</p>

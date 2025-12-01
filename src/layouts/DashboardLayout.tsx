@@ -7,6 +7,7 @@ import {
   LineChart,
   Menu,
   Package,
+  BookOpenText,
   Package2,
   Search,
   ShoppingCart,
@@ -47,6 +48,8 @@ const navItems = [
   { href: "/customers", icon: Users, label: "Customers"},
   { href: "/users", icon: CircleUser, label: "Users"},
   { href: "/orders",icon: ShoppingCart, label: "Orders"},
+  { href: "/accounting", icon: LineChart, label: "Accounting"},
+  { href: "/ledgers", icon: BookOpenText, label: "Ledgers" },
 ];
 
 

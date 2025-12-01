@@ -20,17 +20,37 @@ interface AuthState {
   logout: () => void;
 }
 
+let logoutTimer: NodeJS.Timeout;
+
 export const useAuthStore = create<AuthState>()(
   persist(
     (set) => ({
       user: null,
       accessToken: null,
       isAuthenticated: false,
-      setAuth: (user, accessToken) => set({ user, accessToken, isAuthenticated: true }),
-      logout: () => set({ user: null, accessToken: null, isAuthenticated: false }),
+      setAuth: (user, accessToken) => {
+        set({ user, accessToken, isAuthenticated: true });
+
+        // Clear any existing timer
+        if (logoutTimer) {
+          clearTimeout(logoutTimer);
+        }
+
+        // Set a new timer for 50 minutes
+        logoutTimer = setTimeout(() => {
+          set({ user: null, accessToken: null, isAuthenticated: false });
+        }, 50 * 60 * 1000);
+      },
+      logout: () => {
+        // Clear the timer when logging out manually
+        if (logoutTimer) {
+          clearTimeout(logoutTimer);
+        }
+        set({ user: null, accessToken: null, isAuthenticated: false });
+      },
     }),
     {
-      name: 'auth-storage', // The key used to store the entire auth state in localStorage
+      name: 'auth-storage',
     }
   )
 );

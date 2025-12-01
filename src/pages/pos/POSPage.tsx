@@ -1,4 +1,4 @@
-"import { useState } from "react";
+import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import api from "@/lib/axios";
 import { useCartStore } from "@/store/useCartStore";
@@ -19,7 +19,7 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-
+import { cn } from "@/lib/utils"; 
 export default function POSPage() {
     const [search, setSearch] = useState("");
     const { 
@@ -97,7 +97,8 @@ export default function POSPage() {
                 </div>
 
                 <ScrollArea className="flex-1 p-4 bg-white">
-                    {cart.length === 0 ? (
+                {cart.length === 0 ? (
+                         // ... Empty State ...
                          <div className="flex flex-col items-center justify-center h-64 text-muted-foreground opacity-50">
                             <ShoppingCart className="h-16 w-16 mb-4" />
                             <p>Cart is empty</p>
@@ -113,6 +114,10 @@ export default function POSPage() {
                                             {item.size && <span>• {item.size}</span>}
                                             {item.color && <span>• {item.color}</span>}
                                         </div>
+                                        {/* Added Stock Indicator in Cart */}
+                                        <div className="text-[10px] text-orange-600 font-medium">
+                                            Max: {item.stock_quantity}
+                                        </div>
                                         <div className="font-bold text-sm text-indigo-600">₦{Number(item.price).toLocaleString()}</div>
                                     </div>
                                     
@@ -121,6 +126,7 @@ export default function POSPage() {
                                             <Button 
                                                 variant="ghost" size="icon" className="h-8 w-8 rounded-r-none hover:bg-slate-100"
                                                 onClick={() => updateQuantity(item.cartId, -1)}
+                                                disabled={item.quantity <= 1} // Disable minus if qty is 1
                                             >
                                                 <Minus className="h-3 w-3" />
                                             </Button>
@@ -128,6 +134,8 @@ export default function POSPage() {
                                             <Button 
                                                 variant="ghost" size="icon" className="h-8 w-8 rounded-l-none hover:bg-slate-100"
                                                 onClick={() => updateQuantity(item.cartId, 1)}
+                                                // --- DISABLE PLUS IF LIMIT REACHED ---
+                                                disabled={item.quantity >= item.stock_quantity}
                                             >
                                                 <Plus className="h-3 w-3" />
                                             </Button>
@@ -177,13 +185,18 @@ interface ProductCardProps {
     onAdd: (p: Product, v: Variant) => void;
     onSingleClick: () => void;
 }
-
 function ProductCard({ product, onAdd, onSingleClick }: ProductCardProps) {
     const hasMultipleVariants = product.variants.length > 1;
     const totalStock = product.variants.reduce((acc, v) => acc + v.stock_quantity, 0);
+    const isOutOfStock = totalStock <= 0;
 
     const CardBody = (
-        <Card className="h-full cursor-pointer hover:border-indigo-500 hover:shadow-md transition-all active:scale-95 group">
+        <Card className={cn(
+            "h-full transition-all group border",
+            isOutOfStock 
+                ? "opacity-60 cursor-not-allowed bg-slate-50" 
+                : "cursor-pointer hover:border-indigo-500 hover:shadow-md active:scale-95"
+        )}>
             <CardContent className="p-4 space-y-3">
                 <div className="aspect-square bg-slate-100 rounded-lg flex items-center justify-center group-hover:bg-indigo-50 transition-colors">
                     <span className="text-3xl font-bold text-slate-300 group-hover:text-indigo-300 uppercase select-none">
@@ -196,39 +209,60 @@ function ProductCard({ product, onAdd, onSingleClick }: ProductCardProps) {
                          <span className="font-bold text-sm text-indigo-700">
                             ₦{Number(product.variants[0]?.price).toLocaleString()}
                         </span>
-                        <Badge variant={totalStock < 1 ? "destructive" : "secondary"} className="text-[10px] px-1.5">
-                            {totalStock} Left
-                        </Badge>
+                        {isOutOfStock ? (
+                             <Badge variant="destructive" className="text-[10px] px-1.5">Out of Stock</Badge>
+                        ) : (
+                             <Badge variant={totalStock < 10 ? "secondary" : "outline"} className="text-[10px] px-1.5">
+                                {totalStock} Left
+                            </Badge>
+                        )}
                     </div>
                 </div>
             </CardContent>
         </Card>
     );
 
+    // If Out of Stock, don't allow interactions
+    if (isOutOfStock) {
+        return <div>{CardBody}</div>;
+    }
+
     if (hasMultipleVariants) {
         return (
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>{CardBody}</DropdownMenuTrigger>
                 <DropdownMenuContent align="start" className="w-56">
-                    <div key="variant-header" className="px-2 py-1.5 text-xs font-semibold text-muted-foreground">Select Variant</div>
-                    {product.variants.map(variant => (
-                        <DropdownMenuItem 
-                            key={variant.id} 
-                            onClick={() => onAdd(product, variant)}
-                            className="justify-between cursor-pointer"
-                            disabled={variant.stock_quantity < 1}
-                        >
-                            <span className="flex flex-col">
-                                <span>{variant.size || variant.color || variant.sku}</span>
-                                <span className="text-xs text-muted-foreground">Qty: {variant.stock_quantity}</span>
-                            </span>
-                            <span className="font-bold">₦{Number(variant.price).toLocaleString()}</span>
-                        </DropdownMenuItem>
-                    ))}
+                    <div className="px-2 py-1.5 text-xs font-semibold text-muted-foreground">Select Variant</div>
+                    {product.variants.map(variant => {
+                        const isVariantOOS = variant.stock_quantity <= 0;
+                        return (
+                            <DropdownMenuItem 
+                                key={variant.id} 
+                                onClick={(e) => {
+                                    if (isVariantOOS) {
+                                        e.preventDefault();
+                                        return;
+                                    }
+                                    onAdd(product, variant);
+                                }}
+                                className={cn("justify-between", isVariantOOS ? "opacity-50 cursor-not-allowed" : "cursor-pointer")}
+                                disabled={isVariantOOS} // Disable individual variant
+                            >
+                                <span className="flex flex-col">
+                                    <span>{variant.size || variant.color || variant.sku}</span>
+                                    <span className="text-xs text-muted-foreground">
+                                        {isVariantOOS ? "Out of Stock" : `Qty: ${variant.stock_quantity}`}
+                                    </span>
+                                </span>
+                                <span className="font-bold">₦{Number(variant.price).toLocaleString()}</span>
+                            </DropdownMenuItem>
+                        )
+                    })}
                 </DropdownMenuContent>
             </DropdownMenu>
         );
     }
 
+    // Single variant click
     return <div onClick={onSingleClick}>{CardBody}</div>;
 }

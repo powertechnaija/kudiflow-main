@@ -29,9 +29,7 @@ import {
 
 export default function InventoryList() {
     const [search, setSearch] = useState("");
-    const [editingProduct, setEditingProduct] = useState<Product | null>(null);
-    const [viewHistoryId, setViewHistoryId] = useState<number | null>(null);
-    
+   
     // Zustand Store
     const { 
         filteredProducts, 
@@ -152,21 +150,13 @@ export default function InventoryList() {
                     </Table>
                 </CardContent>
             </Card>
-            <EditProductSheet 
-                product={editingProduct} 
-                open={!!editingProduct} 
-                onClose={() => setEditingProduct(null)} 
-            />
-            <ProductHistoryDialog 
-                productId={viewHistoryId} 
-                open={!!viewHistoryId} 
-                onClose={() => setViewHistoryId(null)} 
-            />
+            
         </div>
     );
 }
 
 function ProductRow({ product }: { product: Product }) {
+
     const totalStock = product.variants.reduce((acc, v) => acc + v.stock_quantity, 0);
     const hasMultiple = product.variants.length > 1;
     const minPrice = Math.min(...product.variants.map(v => Number(v.price)));
@@ -174,6 +164,9 @@ function ProductRow({ product }: { product: Product }) {
     
     const isLowStock = totalStock < 10;
     const isOutOfStock = totalStock === 0;
+    const [editingProduct, setEditingProduct] = useState<Product | null>(null);
+    const [viewHistoryId, setViewHistoryId] = useState<number | null>(null);
+    
 
     return (
         <TableRow className="hover:bg-gray-50/50 transition-colors">
@@ -252,6 +245,16 @@ function ProductRow({ product }: { product: Product }) {
                     </DropdownMenuContent>
                 </DropdownMenu>
             </TableCell>
+            <EditProductSheet 
+                product={editingProduct} 
+                open={!!editingProduct} 
+                onClose={() => setEditingProduct(null)} 
+            />
+            <ProductHistoryDialog 
+                productId={viewHistoryId} 
+                open={!!viewHistoryId} 
+                onClose={() => setViewHistoryId(null)} 
+/>
         </TableRow>
     );
 }
