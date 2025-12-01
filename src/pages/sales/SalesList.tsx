@@ -1,5 +1,4 @@
 import {
-    PlusCircle,
     File,
     ListFilter
 } from "lucide-react"
@@ -14,7 +13,6 @@ import {
 import {
     Table,
     TableBody,
-    TableCell,
     TableHead,
     TableHeader,
     TableRow,

@@ -5,9 +5,11 @@ import { useNavigate, Link } from 'react-router-dom';
 import { useAuthStore } from '@/store/useAuthStore';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form"
+import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
 import { toast } from 'sonner';
 import { Loader2 } from 'lucide-react';
+import api from '@/lib/axios';
+
 
 const formSchema = z.object({
   store_name: z.string().min(2, "Store name must be at least 2 characters."),
@@ -34,10 +36,17 @@ export default function Register() {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      // const { data } = await api.post('/register', values); // Uncomment when API is ready
+      const { data } = await api.post('/register', values); // Uncomment when API is ready
       // Mock successful registration
       await new Promise(resolve => setTimeout(resolve, 1000));
-      const data = { user: { name: values.name, email: values.email }, access_token: 'mock_token' };
+    //   const user: User = { 
+    //     id: values.id, 
+    //     name: values.name, 
+    //     email: values.email, 
+    //     role: values.role ,// Explicitly satisfy the type
+    //     store: { id: values.store_id, name: values.store_name, currency: "NGN" } 
+    //   };
+    //   const data = { user, access_token: 'mock_token' };
 
       setAuth(data.user, data.access_token);
       toast.success("Store Created!");

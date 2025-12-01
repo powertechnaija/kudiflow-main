@@ -1,7 +1,6 @@
 import { useState } from "react";
 import {
     Dialog,
-    DialogClose,
     DialogContent,
     DialogDescription,
     DialogFooter,
@@ -14,21 +13,13 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Separator } from "@/components/ui/separator"
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/card"
 import api from "@/lib/axios"
 import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form"
-import { useForm , useFieldArray} from "react-hook-form"
+import { useForm , useFieldArray, type Control, type SubmitHandler, type Resolver} from "react-hook-form"
 import * as z from "zod"
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { toast } from 'sonner'
 import { zodResolver } from "@hookform/resolvers/zod"
-import { Label } from "@/components/ui/label"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 // Icons
@@ -65,7 +56,7 @@ export function AddProductDialog({ children }: { children: React.ReactNode }) {
     const queryClient = useQueryClient();
 
     const form = useForm<ProductFormValues>({
-        resolver: zodResolver(productSchema),
+        resolver: zodResolver(productSchema) as Resolver<ProductFormValues, any>,
         defaultValues: {
           name: "",
           description: "",
@@ -81,9 +72,9 @@ export function AddProductDialog({ children }: { children: React.ReactNode }) {
         },
    });
 
-   const { fields, append, remove } = useFieldArray({
+   const { fields, append, remove } = useFieldArray<ProductFormValues>({
     name: "variants",
-    control: form.control,
+    control: form.control as Control<ProductFormValues>,
   });
   const createProductMutation = useMutation({
     mutationFn: async (data: ProductFormValues) => {
@@ -102,7 +93,7 @@ export function AddProductDialog({ children }: { children: React.ReactNode }) {
     },
   });
 
-  const onSubmit = (data: ProductFormValues) => {
+  const onSubmit: SubmitHandler<ProductFormValues> = (data: ProductFormValues) => {
     createProductMutation.mutate(data);
   };
 
@@ -148,7 +139,7 @@ export function AddProductDialog({ children }: { children: React.ReactNode }) {
 
                       <div className="grid gap-4 md:grid-cols-2">
                           <FormField
-                              control={form.control}
+                              control={form.control as Control<ProductFormValues>}
                               name="name"
                               render={({ field }) => (
                                   <FormItem className="col-span-2 md:col-span-1">
@@ -161,7 +152,7 @@ export function AddProductDialog({ children }: { children: React.ReactNode }) {
                               )}
                           />
                            <FormField
-                              control={form.control}
+                              control={form.control as Control<ProductFormValues>}
                               name="description"
                               render={({ field }) => (
                                   <FormItem className="col-span-2 md:col-span-1">
@@ -209,7 +200,7 @@ export function AddProductDialog({ children }: { children: React.ReactNode }) {
                                       {/* 1. SKU & Barcode */}
                                       <div className="col-span-2 md:col-span-2 space-y-3">
                                           <FormField
-                                              control={form.control}
+                                              control={form.control as Control<ProductFormValues>}
                                               name={`variants.${index}.sku`}
                                               render={({ field }) => (
                                                   <FormItem>
@@ -232,7 +223,7 @@ export function AddProductDialog({ children }: { children: React.ReactNode }) {
                                               )}
                                           />
                                           <FormField
-                                              control={form.control}
+                                              control={form.control as Control<ProductFormValues>}
                                               name={`variants.${index}.barcode`}
                                               render={({ field }) => (
                                                   <FormItem>
@@ -248,7 +239,7 @@ export function AddProductDialog({ children }: { children: React.ReactNode }) {
                                       {/* 2. Attributes (Size/Color) */}
                                       <div className="col-span-2 md:col-span-2 space-y-3">
                                           <FormField
-                                              control={form.control}
+                                              control={form.control as Control<ProductFormValues>}
                                               name={`variants.${index}.size`}
                                               render={({ field }) => (
                                                   <FormItem>
@@ -258,7 +249,7 @@ export function AddProductDialog({ children }: { children: React.ReactNode }) {
                                               )}
                                           />
                                           <FormField
-                                              control={form.control}
+                                              control={form.control as Control<ProductFormValues>}
                                               name={`variants.${index}.color`}
                                               render={({ field }) => (
                                                   <FormItem>
@@ -273,7 +264,7 @@ export function AddProductDialog({ children }: { children: React.ReactNode }) {
                                       <div className="col-span-2 md:col-span-2 space-y-3">
                                           <div className="grid grid-cols-2 gap-3">
                                               <FormField
-                                                  control={form.control}
+                                                  control={form.control as Control<ProductFormValues>}
                                                   name={`variants.${index}.cost_price`}
                                                   render={({ field }) => (
                                                       <FormItem>
@@ -288,7 +279,7 @@ export function AddProductDialog({ children }: { children: React.ReactNode }) {
                                                   )}
                                               />
                                               <FormField
-                                                  control={form.control}
+                                                  control={form.control as Control<ProductFormValues>}
                                                   name={`variants.${index}.price`}
                                                   render={({ field }) => (
                                                       <FormItem>
@@ -315,7 +306,7 @@ export function AddProductDialog({ children }: { children: React.ReactNode }) {
                                       {/* 4. Stock */}
                                       <div className="col-span-2 md:col-span-1 space-y-3">
                                           <FormField
-                                              control={form.control}
+                                              control={form.control as Control<ProductFormValues>}
                                               name={`variants.${index}.stock_quantity`}
                                               render={({ field }) => (
                                                   <FormItem>

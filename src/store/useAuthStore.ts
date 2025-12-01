@@ -20,7 +20,7 @@ interface AuthState {
   logout: () => void;
 }
 
-let logoutTimer: NodeJS.Timeout;
+let logoutTimer: number;
 
 export const useAuthStore = create<AuthState>()(
   persist(

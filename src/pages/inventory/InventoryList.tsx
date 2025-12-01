@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import api from "@/lib/axios";
 import { useProductStore } from "@/store/useProductStore";
-import { Product } from "@/types/inventory";
+import type { Product } from "@/types/inventory";
 import { AddProductDialog } from "./components/AddProductDialog";
 import { EditProductSheet } from "./components/EditProductSheet";
 import { ProductHistoryDialog } from "./components/ProductHistoryDialog";
@@ -10,7 +10,7 @@ import { cn } from "@/lib/utils";
 
 import { 
     Search, Plus, MoreHorizontal, Loader2, AlertCircle, 
-    Filter, Download, RefreshCcw 
+    RefreshCcw 
 } from "lucide-react";
 
 import { Input } from "@/components/ui/input";
@@ -237,7 +237,7 @@ function ProductRow({ product }: { product: Product }) {
                         <DropdownMenuItem onClick={() => setEditingProduct(product)}>
                             Edit Product
                         </DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => setViewHistoryId(product.id)}>
+                        <DropdownMenuItem onClick={() => setViewHistoryId(Number(product.id))}>
                             View History
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />

@@ -1,5 +1,6 @@
 import { create } from 'zustand';
-import { Product, Variant } from '@/types/inventory';
+import type { Product } from '@/types/inventory';
+import type { ProductVariant as Variant } from '@/types/inventory';
 import { toast } from 'sonner'; // Import toast for feedback
 
 export interface CartItem extends Variant {

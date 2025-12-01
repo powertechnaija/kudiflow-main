@@ -1,11 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import api from "@/lib/axios";
-import { format } from "date-fns";
 import {
-  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
-  LineChart, Line, AreaChart, Area
+  XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
+  AreaChart, Area
 } from "recharts";
-import { Loader2, TrendingUp, TrendingDown, DollarSign, Briefcase } from "lucide-react";
+import { Loader2, TrendingUp, TrendingDown, DollarSign } from "lucide-react";
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";

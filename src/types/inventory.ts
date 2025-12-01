@@ -9,8 +9,10 @@ export interface Product {
     id: string;
     sku: string;
     price: number;
+    cost_price: number;
     stock_quantity: number;
     size?: string;
     color?: string;
+    barcode?: string;
   }
   

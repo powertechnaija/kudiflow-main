@@ -22,7 +22,6 @@ import {
     DollarSign,
     Users,
     CreditCard,
-    Activity,
     Package
 } from "lucide-react"
 

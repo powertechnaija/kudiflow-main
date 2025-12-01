@@ -16,7 +16,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { Search, UserPlus, Phone, Mail, MapPin, Loader2 } from "lucide-react";
+import { Search, UserPlus, Phone, Mail, Loader2 } from "lucide-react";
 import { toast } from 'sonner'
 
 // Types

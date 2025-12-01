@@ -3,7 +3,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useCartStore } from "@/store/useCartStore";
 import api from "@/lib/axios";
 import { toast } from "sonner";
-import { Loader2, CreditCard, Banknote, Check, ChevronsUpDown, StickyNote, Plus, UserPlus } from "lucide-react";
+import { Loader2, CreditCard, Banknote, Check, ChevronsUpDown, StickyNote, UserPlus } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 // UI Components
@@ -84,14 +84,14 @@ export function CheckoutDialog() {
         return res.data;
     },
     onSuccess: (newCustomer) => {
-        toast({ title: "Customer Added" });
+        toast.success("Customer Added");
         queryClient.invalidateQueries({ queryKey: ['customers-list'] }); // Refresh list
         setCustomerId(newCustomer.id); // Auto-select new customer
         setAddCustomerOpen(false); // Close small dialog
         setNewCustomerName("");
         setNewCustomerPhone("");
     },
-    onError: () => toast({ variant: "destructive", title: "Failed", description: "Name is required." })
+    onError: () => toast.error("Name is required.")
   });
 
   const total = cartTotal();

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import api from "@/lib/axios";
 import { useCartStore } from "@/store/useCartStore";
-import { Product, Variant } from "@/types/inventory";
+import type { Product, ProductVariant as Variant } from "@/types/inventory";
 import { CheckoutDialog } from "./components/CheckoutDialog";
 
 // UI Components

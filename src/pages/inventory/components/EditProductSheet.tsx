@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import api from "@/lib/axios";
-import { Product } from "@/types/inventory";
+import type { Product } from "@/types/inventory";
 import { toast } from "sonner";
 
 import {
@@ -16,14 +16,14 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Badge } from "@/components/ui/badge"
-import { Save, Loader2 } from "lucide-react";
+import { Loader2 } from "lucide-react";
 
 // Reuse schema logic (simplified for brevity)
 const productSchema = z.object({
   name: z.string().min(2),
   description: z.string().optional(),
   variants: z.array(z.object({
-    id: z.number().optional(), // Important for updates
+    id: z.string().optional(), // Important for updates
     sku: z.string(),
     price: z.coerce.number(),
     cost_price: z.coerce.number(),

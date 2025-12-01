@@ -1,11 +1,11 @@
 export interface Store {
-    id: number;
+    id: string;
     name: string;
     currency: string;
   }
   
   export interface User {
-    id: number;
+    id: string;
     name: string;
     email: string;
     role: 'admin' | 'manager' | 'cashier';

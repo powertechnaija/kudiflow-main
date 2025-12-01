@@ -34,7 +34,7 @@ export default function UserList() {
     
 
     // Fetch Users
-    const { data: users, isLoading } = useQuery({
+    const { data: users } = useQuery({
         queryKey: ['users'],
         queryFn: async () => {
             const res = await api.get('/users');
@@ -63,7 +63,7 @@ export default function UserList() {
         mutationFn: (id: number) => api.delete(`/users/${id}`),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['users'] });
-            toast({ title: "User Deleted" });
+            toast("User Deleted");
         }
     });
 

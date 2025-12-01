@@ -1,9 +1,8 @@
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom"
 import { useAuthStore } from "@/store/useAuthStore"
+import React from 'react';
 import {
-  Bell,
   CircleUser,
-  Home,
   LineChart,
   Menu,
   Package,
@@ -16,10 +15,8 @@ import {
   ClipboardList,
   BarChart3
 } from "lucide-react"
-import { format } from "date-fns";
 
 import { cn } from "@/lib/utils"
-import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import {
   Card,
@@ -53,7 +50,7 @@ const navItems = [
 ];
 
 
-const NavLink = ({ href, icon: Icon, label, isMobile = false }) => {
+const NavLink = ({ href, icon: Icon, label, isMobile = false }: { href: string; icon: React.ElementType; label: string; isMobile?: boolean }) => {
   const location = useLocation();
   const isActive = location.pathname === href;
 
