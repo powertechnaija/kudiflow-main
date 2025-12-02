@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useAuthStore } from '@/store/useAuthStore';
 
 const api = axios.create({
-  baseURL: 'http://kudiflow.onlinewebshop.net/api', // Replace with your actual API base URL
+  baseURL: 'https://kudiflow-development.up.railway.app/api', // Replace with your actual API base URL
   headers: {
     'Content-Type': 'application/json',
   },
